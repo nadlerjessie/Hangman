@@ -1,10 +1,12 @@
 class Board
   DICTIONARY = ['word']
+  LETTERS = "abcdefghijklmnopqrstuvwxyz"
+
   attr_reader :secret_word, :guess, :revealed_letters
 
   def initialize
     @secret_word = DICTIONARY.sample
-    @revealed_letters = "_ " * self.secret_word.length
+    @revealed_letters = "_" * self.secret_word.length
   end
 
   def check_guess?(guess)
@@ -17,6 +19,10 @@ class Board
       self.revealed_letters[index] = self.guess if letter == self.guess
     end
     self.revealed_letters
+  end
+
+  def check_valid?(guess)
+    LETTERS.include?(guess) && !self.incorrect.include?(guess) && !self.correct.include?(guess)
   end
 
   def incorrect
@@ -34,4 +40,5 @@ class Board
   def store_correct
     self.correct << self.guess
   end
+
 end
