@@ -55,6 +55,8 @@ def run
   user = User.new(gets.chomp)
   begin
     on = play(user)
+    # IF NOT YES ASK THEY WANT TO SWITCH USER, CREATE NEW USER, VIEW LEADERBOARD
+    # OR EXIT
   end while on == "yes"
   goodbye
   # if game_over(user, board) == "yes"
