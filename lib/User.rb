@@ -7,6 +7,11 @@ class User
     @lives = 6
     @wins = 0
     @losses = 0
+    self.class.all << self
+  end
+
+  def self.all
+    @@all ||= []
   end
 
   def make_guess
@@ -23,5 +28,11 @@ class User
 
   def reset_lives
     self.lives = 6
+  end
+
+  def self.leaderboard
+    self.all.sort_by do |user|
+      (user.wins*3) - (user.losses)
+    end
   end
 end

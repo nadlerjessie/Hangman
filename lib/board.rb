@@ -5,29 +5,25 @@ class Board
   DICTIONARY = File.open( config_path ).map do |line|
     line.strip
   end
-  puts DICTIONARY.count
-  LETTERS = "abcdefghijklmnopqrstuvwxyz"
+  LETTERS = "abcdefghijklmnopqrstuvwxyz".upcase
 
-  attr_reader :secret_word, :guess
-  attr_accessor :revealed_letters
+  attr_accessor :revealed_letters, :secret_word, :guess
 
   def initialize
-    @secret_word = DICTIONARY.sample
+    begin
+      @secret_word = DICTIONARY.sample.upcase
+    end while self.secret_word.length < 4
     @revealed_letters = "_" * self.secret_word.length
   end
 
   def check_guess?(guess)
-    @guess = guess
+    @guess = guess.upcase
     @secret_word.include?(self.guess)
   end
 
   def reveal_letter
     self.secret_word.split('').each_with_index do |letter, index|
-      #binding.pry
-      if letter == self.guess
-        #binding.pry
-        self.revealed_letters[index] = self.guess 
-      end
+      self.revealed_letters[index] = self.guess if letter == self.guess
     end
     self.revealed_letters
   end
@@ -51,5 +47,4 @@ class Board
   def store_correct
     self.correct << self.guess
   end
-
 end
