@@ -15,9 +15,9 @@ class User
 
   def update_games_played (win_or_lose)
       if win_or_lose == 'win'
-        wins += 1
+        self.wins += 1
       else
-        losses += 1
+        self.losses += 1
       end
   end
 
