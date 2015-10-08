@@ -1,8 +1,11 @@
+require 'pry'
+
 class Board
   DICTIONARY = ['word']
   LETTERS = "abcdefghijklmnopqrstuvwxyz"
 
-  attr_reader :secret_word, :guess, :revealed_letters
+  attr_reader :secret_word, :guess
+  attr_accessor :revealed_letters
 
   def initialize
     @secret_word = DICTIONARY.sample
@@ -15,8 +18,12 @@ class Board
   end
 
   def reveal_letter
-    self.secret_word.split.each_with_index do |letter, index|
-      self.revealed_letters[index] = self.guess if letter == self.guess
+    self.secret_word.split('').each_with_index do |letter, index|
+      #binding.pry
+      if letter == self.guess
+        #binding.pry
+        self.revealed_letters[index] = self.guess 
+      end
     end
     self.revealed_letters
   end
