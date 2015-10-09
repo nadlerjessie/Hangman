@@ -1,7 +1,11 @@
 require 'pry'
 
 class Board
-  DICTIONARY = ['word']
+  config_path = File.expand_path("../../db/library.txt", __FILE__)
+  DICTIONARY = File.open( config_path ).map do |line|
+    line.strip
+  end
+  puts DICTIONARY.count
   LETTERS = "abcdefghijklmnopqrstuvwxyz"
 
   attr_reader :secret_word, :guess
