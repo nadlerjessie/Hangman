@@ -1,5 +1,6 @@
 require_relative '../lib/User.rb'
 require_relative '../lib/Board.rb'
+require_relative '../lib/concerns/graphic.rb'
 require 'pry'
 
 extend Graphic
@@ -12,7 +13,11 @@ def play(user)
     classic(user)
     puts "\n\n\n #{board.reveal_letter.split('').join(' ')}"
     puts "Incorrect Letters Guessed:\n#{board.incorrect.sort.join(' ')}"
-    puts "You have #{user.lives} lives left."
+    if user.lives != 1
+      puts "You have #{user.lives} lives left."
+    else 
+      puts "You have #{user.lives} life left."
+    end
     puts "Please make a guess."
     current_guess = user.make_guess.upcase
     if board.check_valid?(current_guess)
@@ -43,6 +48,7 @@ def game_over(user, board)
     puts "You win! Do you want to play again? Please enter yes or no:"
   else
     user.update_games_played("lose")
+    classic(user)
     puts "You lose! The word was: #{board.secret_word}.\nDo you want to play again? Please enter yes or no:"
   end
     y_n = gets.chomp.downcase
@@ -110,3 +116,8 @@ end
   # switch user
 
 end
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> origin/master
