@@ -28,7 +28,7 @@ def play(user)
     end
   end
 
-  game_over(user, board) 
+  game_over(user, board)
 
 end
 
@@ -66,7 +66,7 @@ def run
   #   play
   # else
   #   goodbye
-  # end      
+  # end
 end
 
 def display_leaderboard(user)
@@ -76,9 +76,37 @@ def display_leaderboard(user)
 end
 
 def commands
-  # three comands - leaderboard
+  if game_over.downcase == 'no'
+    goodbye
+  elsif game_over.downcase == 'yes'
+    puts "Would you like to create a new user?"
+    input = gets.chomp
+    if input == 'no'
+      exit
+    elsif input == 'yes'
+      puts "Please enter a new name."
+      new_name = gets.chomp
+      user.initialize(new_name)
+    else
+      puts "That's not a valid command."
+    end
+  end
+end
+
+  def switch_users
+    puts "The last #{user.all.count} players were: #{user.all.split}.\nWhich user were you?"
+    input = gets.chomp
+    if user.all.include?(input)
+      puts "Welcome back, #{input}!"
+      play(input)
+    else
+      puts "That name isn't in there!" redo
+    end
+  end
+
+  # four commands - leaderboard
+  # create a new user, switch users (list previous users, do by index number), see scoreboard, exit
   # new user
   # switch user
 
 end
-
