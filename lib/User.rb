@@ -2,6 +2,8 @@ class User
   attr_reader :name
   attr_accessor :wins, :losses, :lives
 
+ 
+  
   def initialize(name)
     @name = name
     @lives = 6

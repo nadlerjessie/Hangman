@@ -2,11 +2,14 @@ require_relative '../lib/User.rb'
 require_relative '../lib/Board.rb'
 require 'pry'
 
+extend Graphic
+
 def play(user)
   board = Board.new
   user.reset_lives
   puts "Hi #{user.name}! You start with #{user.lives} lives."
   while user.lives > 0 && board.secret_word != board.revealed_letters
+    classic(user)
     puts "\n\n\n #{board.reveal_letter.split('').join(' ')}"
     puts "Incorrect Letters Guessed:\n#{board.incorrect.sort.join(' ')}"
     puts "You have #{user.lives} lives left."
