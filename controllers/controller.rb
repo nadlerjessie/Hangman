@@ -15,7 +15,7 @@ def play(user)
     puts "Incorrect Letters Guessed:\n#{board.incorrect.sort.join(' ')}"
     if user.lives != 1
       puts "You have #{user.lives} lives left."
-    else 
+    else
       puts "You have #{user.lives} life left."
     end
     puts "Please make a guess."
@@ -103,31 +103,23 @@ def display_leaderboard(user)
 end
 
 def switch_users
-  puts "The last #{user.all.count} players were: #{user.all.split}.\nWhich user were you?"
+  list_users
+  puts "The last #{User.all.count} player(s) were: #{list_users.join(', ')}.\nWhich user were you?"
   input = gets.chomp
-  if user.all.include?(input)
+  if split_users.include?(input)
     puts "Welcome back, #{input}!"
-    play(input)
+
   else
-    puts "That name isn't in there!" 
+    puts "That name isn't in there!"
   end
 end
 
-
-def switch_users
-  puts "The last #{user.all.count} players were: #{user.all.split}.\nWhich user were you?"
-  input = gets.chomp
-  if user.all.include?(input)
-    puts "Welcome back, #{input}!"
-    play(input)
-  else
-    puts "That name isn't in there!" 
-  end
-end
+# def split_users
+#   users_array = User.all.each_with_object({}) { |user, index| }
+# end
 
 
   # four commands - leaderboard
   # create a new user, switch users (list previous users, do by index number), see scoreboard, exit
   # new user
   # switch user
-
