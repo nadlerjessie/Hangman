@@ -8,12 +8,18 @@ class Board
   LETTERS = "abcdefghijklmnopqrstuvwxyz".upcase
 
   attr_accessor :revealed_letters, :secret_word, :guess
+  attr_reader :user
 
   def initialize
     begin
       @secret_word = DICTIONARY.sample.upcase
     end while self.secret_word.length < 4
     @revealed_letters = "_" * self.secret_word.length
+  end
+
+  def user=(user)
+    @user = user
+    user.boards << self
   end
 
   def check_guess?(guess)

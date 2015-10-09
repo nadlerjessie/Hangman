@@ -57,8 +57,6 @@ module Graphic
       puts "|     |"
       puts "|    / \\"
       puts "|   /   \\"
+    end
   end
-​
-​
-​
 end

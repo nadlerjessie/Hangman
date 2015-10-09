@@ -1,8 +1,6 @@
 class User
   attr_reader :name
   attr_accessor :wins, :losses, :lives
-
- 
   
   def initialize(name)
     @name = name
@@ -10,6 +8,14 @@ class User
     @wins = 0
     @losses = 0
     self.class.all << self
+  end
+
+  def points
+    @points = self.wins*3 - self.loses
+  end
+
+  def boards
+    @boards ||= []
   end
 
   def self.all
@@ -34,7 +40,7 @@ class User
 
   def self.leaderboard
     self.all.sort_by do |user|
-      (user.wins*3) - (user.losses)
+      user.points
     end
   end
 end
