@@ -5,12 +5,32 @@ require 'pry'
 
 extend ::Graphic
 
+
+def switchboard
+  puts "Choose which skin you want to use! (classic + fishtank)"
+  input = gets.chomp.downcase
+  input
+end
+#   elseif input == "fishtank"
+#     fishtank(user)
+#   else
+#     puts "Sorry, not a valid entry."
+#   end
+# end
+
+
 def play(user)
   board = Board.new
   user.reset_lives
   puts "Hi #{user.name}! You start with #{user.lives} lives."
+  userboardchoice = switchboard
+    
   while user.lives > 0 && board.secret_word != board.revealed_letters
-    fishtank(user)
+    if userboardchoice == "classic"
+      board_type = classic(user)
+    elsif userboardchoice == "fishtank"
+      board_type = fishtank(user)
+    end
     puts "\n\n\n #{board.reveal_letter.split('').join(' ')}"
     puts "Incorrect Letters Guessed:\n#{board.incorrect.sort.join(' ')}"
     if user.lives != 1
@@ -32,23 +52,35 @@ def play(user)
       puts "That's not a valid entry."
     end
   end
-  game_over(user, board)
+  
+  board_type
+  game_over(user, board, board_type)
+
 end
 
 def win?(board)
   board.secret_word == board.revealed_letters
 end
 
-def game_over(user, board)
+def game_over(user, board, board_type)
+
   if win?(board)
     user.update_games_played("win")
     puts board.reveal_letter
     puts "You win! Do you want to play again? Please enter yes or no:"
   else
     user.update_games_played("lose")
-    classic(user)
+    puts board_type
     puts "You lose! The word was: #{board.secret_word}.\nDo you want to play again? Please enter yes or no:"
-    fishtank(user)
+    
+    
+    # if userboardchoice == "classic"
+    #   classic(user)
+    # elsif userboardchoice == "fishtank"
+    #   fishtank(user)
+    # end
+    #fishtank(user)
+    #classic(user)
   end
     y_n = gets.chomp.downcase
   if y_n == 'no'
