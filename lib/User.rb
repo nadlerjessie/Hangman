@@ -35,4 +35,8 @@ class User
       (user.wins*3) - (user.losses)
     end
   end
+
+  def boards
+    @boards ||= []
+  end
 end
