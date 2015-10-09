@@ -1,7 +1,6 @@
 require_relative '../lib/User.rb'
 require_relative '../lib/Board.rb'
 require_relative '../lib/concerns/graphic.rb'
-
 require 'pry'
 
 extend ::Graphic
@@ -11,10 +10,14 @@ def play(user)
   user.reset_lives
   puts "Hi #{user.name}! You start with #{user.lives} lives."
   while user.lives > 0 && board.secret_word != board.revealed_letters
-    classic(user)
+    fishtank(user)
     puts "\n\n\n #{board.reveal_letter.split('').join(' ')}"
     puts "Incorrect Letters Guessed:\n#{board.incorrect.sort.join(' ')}"
-    puts "You have #{user.lives} lives left."
+    if user.lives != 1
+      puts "You have #{user.lives} lives left."
+    else 
+      puts "You have #{user.lives} life left."
+    end
     puts "Please make a guess."
     current_guess = user.make_guess.upcase
     if board.check_valid?(current_guess)
@@ -30,7 +33,7 @@ def play(user)
     end
   end
 
-  game_over(user, board) 
+  game_over(user, board)
 
 end
 
@@ -45,8 +48,9 @@ def game_over(user, board)
     puts "You win! Do you want to play again? Please enter yes or no:"
   else
     user.update_games_played("lose")
-    puts "You lose! The word was: #{board.secret_word}.\nDo you want to play again? Please enter yes or no:"
     classic(user)
+    puts "You lose! The word was: #{board.secret_word}.\nDo you want to play again? Please enter yes or no:"
+    fishtank(user)
   end
     y_n = gets.chomp.downcase
 end
@@ -69,7 +73,7 @@ def run
   #   play
   # else
   #   goodbye
-  # end      
+  # end
 end
 
 def display_leaderboard(user)
@@ -79,9 +83,38 @@ def display_leaderboard(user)
 end
 
 def commands
-  # three comands - leaderboard
+  if game_over.downcase == 'no'
+    goodbye
+  elsif game_over.downcase == 'yes'
+    puts "Would you like to create a new user?"
+    input = gets.chomp
+    if input == 'no'
+      exit
+    elsif input == 'yes'
+      puts "Please enter a new name."
+      new_name = gets.chomp
+      user.initialize(new_name)
+    else
+      puts "That's not a valid command."
+    end
+  end
+end
+
+  def switch_users
+    puts "The last #{user.all.count} players were: #{user.all.split}.\nWhich user were you?"
+    input = gets.chomp
+    if user.all.include?(input)
+      puts "Welcome back, #{input}!"
+      play(input)
+    else
+      puts "That name isn't in there!" 
+    end
+  end
+
+  # four commands - leaderboard
+  # create a new user, switch users (list previous users, do by index number), see scoreboard, exit
   # new user
   # switch user
 
-end
+
 
