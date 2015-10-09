@@ -1,8 +1,10 @@
 require_relative '../lib/User.rb'
 require_relative '../lib/Board.rb'
+require_relative '../lib/concerns/graphic.rb'
+
 require 'pry'
 
-extend Graphic
+extend ::Graphic
 
 def play(user)
   board = Board.new
@@ -44,6 +46,7 @@ def game_over(user, board)
   else
     user.update_games_played("lose")
     puts "You lose! The word was: #{board.secret_word}.\nDo you want to play again? Please enter yes or no:"
+    classic(user)
   end
     y_n = gets.chomp.downcase
 end
