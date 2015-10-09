@@ -32,9 +32,7 @@ def play(user)
       puts "That's not a valid entry."
     end
   end
-
   game_over(user, board)
-
 end
 
 def win?(board)
@@ -53,6 +51,28 @@ def game_over(user, board)
     fishtank(user)
   end
     y_n = gets.chomp.downcase
+  if y_n == 'no'
+    goodbye
+  elsif y_n == 'yes'
+    puts "Would you like to create a new user?"
+    input = gets.chomp
+    if input == 'no'
+      puts "Do you want to switch to a previous user?"
+      input = gets.chomp
+        if input == 'yes'
+          switch_users
+        else
+          "That's not a valid entry."
+        end
+    elsif input == 'yes'
+      puts "Please enter a new name."
+      new_name = gets.chomp
+      user = User.new(new_name)
+    else
+      puts "That's not a valid command."
+    end
+  end
+
 end
 
 def goodbye
@@ -82,39 +102,32 @@ def display_leaderboard(user)
   end
 end
 
-def commands
-  if game_over.downcase == 'no'
-    goodbye
-  elsif game_over.downcase == 'yes'
-    puts "Would you like to create a new user?"
-    input = gets.chomp
-    if input == 'no'
-      exit
-    elsif input == 'yes'
-      puts "Please enter a new name."
-      new_name = gets.chomp
-      user.initialize(new_name)
-    else
-      puts "That's not a valid command."
-    end
+def switch_users
+  puts "The last #{user.all.count} players were: #{user.all.split}.\nWhich user were you?"
+  input = gets.chomp
+  if user.all.include?(input)
+    puts "Welcome back, #{input}!"
+    play(input)
+  else
+    puts "That name isn't in there!" 
   end
 end
 
-  def switch_users
-    puts "The last #{user.all.count} players were: #{user.all.split}.\nWhich user were you?"
-    input = gets.chomp
-    if user.all.include?(input)
-      puts "Welcome back, #{input}!"
-      play(input)
-    else
-      puts "That name isn't in there!" 
-    end
+
+def switch_users
+  puts "The last #{user.all.count} players were: #{user.all.split}.\nWhich user were you?"
+  input = gets.chomp
+  if user.all.include?(input)
+    puts "Welcome back, #{input}!"
+    play(input)
+  else
+    puts "That name isn't in there!" 
   end
+end
+
 
   # four commands - leaderboard
   # create a new user, switch users (list previous users, do by index number), see scoreboard, exit
   # new user
   # switch user
-
-
 
