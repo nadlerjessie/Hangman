@@ -108,7 +108,6 @@ def switch_users
   input = gets.chomp
   if split_users.include?(input)
     puts "Welcome back, #{input}!"
-
   else
     puts "That name isn't in there!"
   end
@@ -118,6 +117,11 @@ end
 #   users_array = User.all.each_with_object({}) { |user, index| }
 # end
 
+def list_users
+  User.all.each_with_index do |user, index|
+    puts "#{index+1} - #{user.name}"
+  end
+end
 
   # four commands - leaderboard
   # create a new user, switch users (list previous users, do by index number), see scoreboard, exit
