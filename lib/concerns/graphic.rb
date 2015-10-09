@@ -98,7 +98,7 @@ module Graphic
     puts "|------------|" 
     puts "|   \\_____ | |"
     puts "|____________|"
-elsif user.lives == 2
+elsif user.lives == 1
     puts "|            |"
     puts "|     /\\     |"
     puts "|    /  |    |"  
@@ -115,5 +115,6 @@ elsif user.lives == 2
     puts "|            |"
     puts "|____________|"
   end
-  end
+end
+end
 end
