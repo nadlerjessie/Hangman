@@ -113,18 +113,11 @@ def switch_users
   end
 end
 
-
-def switch_users
-  puts "The last #{user.all.count} players were: #{user.all.split}.\nWhich user were you?"
-  input = gets.chomp
-  if user.all.include?(input)
-    puts "Welcome back, #{input}!"
-    play(input)
-  else
-    puts "That name isn't in there!" 
+def list_users
+  User.all.each_with_index do |user, index|
+    puts "#{index+1} - #{user.name}"
   end
 end
-
 
   # four commands - leaderboard
   # create a new user, switch users (list previous users, do by index number), see scoreboard, exit
