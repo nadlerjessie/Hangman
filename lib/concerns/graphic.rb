@@ -1,5 +1,4 @@
 module Graphic
-​
   def classic(user)
     if user.lives == 6
       puts "------------"
@@ -56,9 +55,7 @@ module Graphic
       puts "|   -----"
       puts "|     |"
       puts "|    / \\"
-      puts "|   /   \\"
+      puts "|   /   \\"    
   end
-​
-​
-​
+  end
 end
