@@ -1,3 +1,5 @@
+require 'pry'
+
 class User
   attr_reader :name
   attr_accessor :wins, :losses, :lives
@@ -18,6 +20,10 @@ class User
     gets.chomp
   end
 
+  def points
+    @points = (self.wins*3) - (self.losses)
+  end
+
   def update_games_played (win_or_lose)
       if win_or_lose == 'win'
         self.wins += 1
@@ -31,9 +37,9 @@ class User
   end
 
   def self.leaderboard
-    self.all.sort_by do |user|
-      (user.wins*3) - (user.losses)
-    end
+    self.all.sort_by! do |user|
+      user.points
+    end.reverse
   end
 
   def boards

@@ -5,15 +5,6 @@ require 'pry'
 
 extend ::Graphic
 
-# def run
-#   puts "Welcome to Hangman! Please input your name."
-#   user = User.new(gets.chomp)
-#   begin
-#     on = play(user)
-#   end while on == "yes"
-#   goodbye
-# end
-
 def run
   current_user = nil
   begin
@@ -33,15 +24,15 @@ def run
         current_user.reset_lives
         play(current_user)
       else
-        puts "*Please create a user."
+        puts "\n*Please create a user."
       end
     when 2
       puts "Please input your name."
       current_user = User.new(gets.chomp)
     when 3
-      User.all.count > 0 ? switch_users : puts("*No users to list. Please create a user.")
+      User.all.count > 0 ? current_user = switch_users : puts("\n*No users to list. Please create a user.")
     when 4
-      User.all.count > 0 ? display_leaderboard : puts("*Leaderboard is empty!")
+      User.all.count > 0 ? display_leaderboard : puts("\n*Leaderboard is empty!")
     when 5
       goodbye
     end
@@ -49,38 +40,39 @@ def run
 end
 
 def play(user)
-  # Initiates the Board
   board = Board.new
   user.boards << board
 
   puts "Hi #{user.name}! You start with #{user.lives} lives."
   
   begin
-    fishtank(user)
-    puts "\n\n\n #{board.reveal_letter.split('').join(' ')}"
-    puts "Incorrect Letters Guessed:\n#{board.incorrect.sort.join(' ')}"
-    
-    if user.lives != 1
-      puts "You have #{user.lives} lives left."
-    else
-      puts "You have #{user.lives} life left."
-    end
-    
-    puts "Please make a guess."
-    current_guess = user.make_guess.upcase
-    
-    if board.check_valid?(current_guess)
-      if board.check_guess?(current_guess)
-        board.reveal_letter
-        board.store_correct
+    begin
+      fishtank(user)
+      puts "\n\n\n #{board.reveal_letter.split('').join(' ')}"
+      puts "Incorrect Letters Guessed:\n#{board.incorrect.sort.join(' ')}"
+      
+      if user.lives != 1
+        puts "You have #{user.lives} lives left."
       else
-        board.store_incorrect
-        user.lives -= 1
+        puts "You have #{user.lives} life left."
       end
-    else
-      puts "That's not a valid entry."
-    end
-  end while user.lives > 0 && board.secret_word != board.revealed_letters && game_over(user, board) == "yes"
+      
+      puts "Please make a guess."
+      current_guess = user.make_guess.upcase
+      
+      if board.check_valid?(current_guess)
+        if board.check_guess?(current_guess)
+          board.reveal_letter
+          board.store_correct
+        else
+          board.store_incorrect
+          user.lives -= 1
+        end
+      else
+        puts "That's not a valid entry."
+      end
+    end while user.lives > 0 && board.secret_word != board.revealed_letters
+  end while game_over(user, board) == "yes"
   
 end
 
@@ -95,11 +87,12 @@ def game_over(user, board)
     puts "You win! Do you want to play again? Please enter yes or no:"
   else
     user.update_games_played("lose")
-    classic(user)
-    puts "You lose! The word was: #{board.secret_word}.\nDo you want to play again? Please enter yes or no:"
     fishtank(user)
+    puts "You lose! The word was: #{board.secret_word}.\nDo you want to play again? Please enter yes or no:"
   end
-    y_n = gets.chomp.downcase
+  begin
+      y_n = gets.chomp.downcase
+  end while !(y_n == "yes" || y_n == "no")
 end
 
 def list_users
@@ -110,16 +103,16 @@ end
 
 def switch_users
   list_users
-
   begin
     puts "Please select user number."
     user_switch = gets.chomp.to_i-1
     switched_user = User.all[user_switch]
   end while user_switch >= User.all.count
+  switched_user
 end
 
 def display_leaderboard
-  puts "*** LEADERBOARD ***"
+  puts "\n*** LEADERBOARD ***"
   User.leaderboard.each do |rankings|
     puts "#{rankings.name}: #{rankings.wins}-#{rankings.losses}"
   end
