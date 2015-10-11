@@ -1,4 +1,6 @@
 require_relative '../lib/User.rb'
 require_relative '../lib/Board.rb'
+require_relative '../controllers/board_controller.rb'
+require_relative '../controllers/user_controller.rb'
 require_relative '../controllers/controller.rb'
 require_relative '../lib/concerns/graphic.rb'
