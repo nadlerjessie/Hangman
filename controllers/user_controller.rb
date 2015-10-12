@@ -39,9 +39,11 @@ class UserController
       user.reset_lives
       puts "\nHi #{user.name}! You start with #{user.lives} lives."
       begin
-        fishtank(user)
-        puts "\n\n\n #{board.reveal_letter.split('').join(' ')}"
-        puts "Incorrect Letters Guessed:\n#{board.incorrect.sort.join(' ')}"
+        view = UserDisplay.new
+        view.render(user)
+        # fishtank(user)
+        # puts "\n\n\n #{board.reveal_letter.split('').join(' ')}"
+        # puts "Incorrect Letters Guessed:\n#{board.incorrect.sort.join(' ')}"
         
         if user.lives != 1
           puts "You have #{user.lives} lives left."
@@ -64,22 +66,26 @@ class UserController
           puts "That's not a valid entry."
         end
       end while user.lives > 0 && board.secret_word != board.revealed_letters
-    end while game_over(user, board) == "yes"
+    end while game_over(user) == "yes"
   end
 
   def win?(board)
     board.secret_word == board.revealed_letters
   end
 
-  def game_over(user, board)
-    if win?(board)
+  def game_over(user)
+    if win?(user.boards[-1])
       user.update_games_played("win")
-      puts board.reveal_letter
-      puts "You win! Do you want to play again?"
+      view = UserWin.new
+      view.render(user)
+      # puts user.boards[-1].reveal_letter
+      # puts "You win! Do you want to play again?"
     else
       user.update_games_played("lose")
-      fishtank(user)
-      puts "You lose! The word was: #{board.secret_word}.\nDo you want to play again?"
+      view = UserLose.new()
+      view.render(user)
+      # fishtank(user)
+      # puts "You lose! The word was: #{board.secret_word}.\nDo you want to play again?"
     end
     begin
       puts "Please enter yes or no:"
