@@ -41,10 +41,7 @@ class UserController
       begin
         view = UserDisplay.new
         view.render(user)
-        # fishtank(user)
-        # puts "\n\n\n #{board.reveal_letter.split('').join(' ')}"
-        # puts "Incorrect Letters Guessed:\n#{board.incorrect.sort.join(' ')}"
-        
+
         if user.lives != 1
           puts "You have #{user.lives} lives left."
         else
@@ -78,14 +75,10 @@ class UserController
       user.update_games_played("win")
       view = UserWin.new
       view.render(user)
-      # puts user.boards[-1].reveal_letter
-      # puts "You win! Do you want to play again?"
     else
       user.update_games_played("lose")
       view = UserLose.new()
       view.render(user)
-      # fishtank(user)
-      # puts "You lose! The word was: #{board.secret_word}.\nDo you want to play again?"
     end
     begin
       puts "Please enter yes or no:"
