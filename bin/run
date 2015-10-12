@@ -2,4 +2,43 @@
 
 require_relative '../config/environment.rb'
 
-run
+user_controller = UserController.new()
+
+current_user = nil
+begin
+  #system('clear')
+  puts "\nHANGMAN"
+  puts "Logged in as #{current_user.name}" if current_user
+  puts "Menu:\n1-Play\n2-Create User\n3-Select User\n4-Leaderboard\n5-Exit"
+  
+  menu_input = gets.chomp.to_i
+  while !(1..5).include?(menu_input)
+    puts "Invalid input. Please input option 1-5."
+    menu_input = gets.chomp.to_i
+  end
+
+  case menu_input
+  when 1
+    if current_user
+      current_user.reset_lives
+      user_controller.play(current_user)
+    else
+      puts "\n*Please create a user."
+    end
+  when 2
+    current_user = user_controller.create_user
+  when 3
+    User.all.count > 0 ? current_user = user_controller.switch_users : puts("\n*No users to list. Please create a user.")
+  when 4
+    User.all.count > 0 ? user_controller.display_leaderboard : puts("\n*Leaderboard is empty!")
+  when 5
+    puts "Thanks for playing. Goodbye!"
+  end
+end while menu_input != 5
+
+
+
+
+
+
+
