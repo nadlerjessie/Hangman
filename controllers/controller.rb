@@ -1,9 +1,18 @@
+## THIS FILE REPLACED BY CONTENT IN RUN AND USER CONTROLLER
+
 # require_relative '../lib/User.rb'
 # require_relative '../lib/Board.rb'
 # require_relative '../lib/concerns/graphic.rb'
 # require 'pry'
 
 # extend ::Graphic
+
+#   elseif input == "fishtank"
+#     fishtank(user)
+#   else
+#     puts "Sorry, not a valid entry."
+#   end
+# end
 
 # def run
 #   current_user = nil
